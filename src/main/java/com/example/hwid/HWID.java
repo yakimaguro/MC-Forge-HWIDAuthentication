@@ -6,6 +6,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Objects;
 
 @Mod(modid = "hwid", name = "HWID", version = "0.0.1")
@@ -14,14 +15,12 @@ public class HWID {
 
     private static final char[] hexArray = "0123456789ABCDEF".toCharArray();
     public static String hwidAuth = (bytesToHex(generateHWID()));
-    String[] AllowedHWID = {"HWID1", "HWID2"};
+    public ArrayList<String> AllowedHWID = new ArrayList<>();
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-        if(Objects.equals(hwidAuth, AllowedHWID[0]) || Objects.equals(hwidAuth, AllowedHWID[1])) {
-            return;
-        }
-        mc.shutdown();
+        AllowedHWID.add("your hwid");
+        if(!AllowedHWID.contains(hwidAuth)) mc.shutdown();
     }
 
     public static byte[] generateHWID() {
